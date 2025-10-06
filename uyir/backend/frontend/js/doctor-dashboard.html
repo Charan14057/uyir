@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uyir Doctor Dashboard</title>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#dc2626",
+        "primary-light": "#fee2e2",
+        orange: "#f97316",
+        "orange-light": "#ffedd5",
+        green: "#16a34a",
+        "green-light": "#dcfce7",
+        background: "#ffffff",
+        "text-primary": "#1f2937",
+        "text-secondary": "#6b7280",
+      },
+      fontFamily: { display: ["Poppins", "Roboto", "sans-serif"] },
+      borderRadius: { lg: "1rem", xl: "1.5rem" },
+    },
+  },
+};
+</script>
+
+<style>
+body {
+  min-height: max(884px, 100dvh);
+  background-color: var(--background);
+}
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+.status-raised {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+.status-assigned {
+  background-color: #ffedd5;
+  color: #f97316;
+}
+.status-completed {
+  background-color: #dcfce7;
+  color: #16a34a;
+}
+</style>
+</head>
+
+<body class="font-display text-text-primary bg-background">
+<div class="flex flex-col min-h-screen">
+
+  <!-- Header -->
+  <header class="bg-primary text-white text-center py-4 sticky top-0 z-10 shadow-md">
+    <div class="flex items-center justify-center gap-2">
+      <span class="material-symbols-outlined text-4xl">local_hospital</span>
+      <h1 class="text-3xl font-bold">Emergency Cases</h1>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="flex-grow overflow-y-auto px-4 pt-6 pb-24">
+
+    <!-- Hidden Urgent Banner -->
+    <section id="urgentBanner" class="hidden mb-8 bg-orange-light text-orange rounded-xl p-5 flex items-center justify-between shadow-lg">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-4xl">warning</span>
+        <h2 class="text-xl font-bold">Urgent Case Available</h2>
+      </div>
+      <button class="bg-orange text-white font-bold py-2 px-5 rounded-full text-base">View</button>
+    </section>
+
+    <!-- Cases Section -->
+    <section>
+      <h3 class="text-lg font-semibold text-text-primary mb-4">All Cases</h3>
+      <div id="casesContainer" class="space-y-4">
+        <p class="text-gray-500 text-center py-10">No active cases yet.</p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-[0_-1px_3px_rgba(0,0,0,0.05)]">
+    <nav class="flex justify-around items-center h-20 px-2">
+      <a class="text-center text-primary" href="#">
+        <span class="material-symbols-outlined filled text-3xl">home</span>
+        <p class="text-xs font-medium">Home</p>
+      </a>
+      <a class="text-center text-text-secondary hover:text-primary transition-colors" href="#">
+        <span class="material-symbols-outlined text-3xl">logout</span>
+        <p class="text-xs font-medium">Log Out</p>
+      </a>
+    </nav>
+  </footer>
+</div>
+
+<!-- Simple JS Placeholder -->
+<script>
+  // No data yet — this will be dynamically filled later when user reports come in
+  const cases = [];
+  const container = document.getElementById("casesContainer");
+  const banner = document.getElementById("urgentBanner");
+
+  // Function to update UI when cases arrive
+  function updateCases(newCases) {
+    if (!newCases.length) {
+      container.innerHTML = `<p class='text-gray-500 text-center py-10'>No active cases yet.</p>`;
+      banner.classList.add("hidden");
+      return;
+    }
+  }
+</script>
+
+</body>
+</html>

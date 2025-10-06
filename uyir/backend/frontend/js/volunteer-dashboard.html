@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uyir - Volunteer Dashboard</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        primary: "#EF4444", // Red
+        "background-light": "#F9FAFB",
+        "background-dark": "#1F2937",
+        "accent-green": "#10B981",
+      },
+      fontFamily: {
+        display: ["Poppins", "sans-serif"],
+        body: ["Roboto", "sans-serif"],
+      },
+      borderRadius: {
+        DEFAULT: "0.75rem",
+        lg: "1rem",
+        xl: "1.5rem",
+        full: "9999px",
+      },
+      boxShadow: {
+        'card': '0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1)',
+      }
+    },
+  },
+};
+</script>
+
+<style>
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.status-raised { background-color: #FEE2E2; color: #DC2626; }
+.status-assigned { background-color: #DBEAFE; color: #3B82F6; }
+.status-completed { background-color: #D1FAE5; color: #059669; }
+</style>
+
+</head>
+<body class="bg-background-light dark:bg-background-dark font-body text-gray-800 dark:text-gray-200">
+
+<div class="flex-grow">
+  <!-- Header -->
+  <header class="bg-background-light dark:bg-background-dark px-6 pt-10 pb-8">
+    <div class="flex flex-col items-center text-center">
+      <h1 class="text-4xl font-bold text-gray-900 dark:text-white font-display">Welcome, Volunteer</h1>
+      <p class="text-gray-600 dark:text-gray-300 mt-2 text-lg font-medium">Your support saves lives every day.</p>
+    </div>
+  </header>
+
+  <!-- Main: EMPTY for dynamic JS -->
+  <main class="p-6 space-y-8">
+    <!-- Cards will be inserted here dynamically by JS -->
+  </main>
+</div>
+
+<!-- Footer -->
+<footer class="sticky bottom-0 bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 py-2">
+  <div class="flex justify-around items-center h-16">
+    <a class="flex flex-col items-center justify-center gap-1 text-primary" href="#">
+      <span class="material-symbols-outlined">home</span>
+      <span class="text-xs font-medium">Home</span>
+    </a>
+    <a class="flex flex-col items-center justify-center gap-1 text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors" href="#">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="text-xs font-medium">Log Out</span>
+    </a>
+  </div>
+</footer>
+
+<!-- Dynamic JS -->
+<script>
+async function loadRequests() {
+    const res = await fetch("http://localhost:3000/reports");
+    const reports = await res.json();
+
+    const main = document.querySelector("main");
+    main.innerHTML = ''; // Clear existing cards
+
+    reports.forEach(r => {
+        const div = document.createElement("div");
+        div.classList.add("flex", "flex-col", "gap-4", "rounded-xl", "bg-white", "dark:bg-gray-800", "p-4", "shadow-card", "font-bold");
+
+        const statusClass = r.status === "Raised" ? "status-raised" : r.status === "Assigned" ? "status-assigned" : "status-completed";
+        const statusIcon = r.status === "Completed" ? "check_circle" : "assignment_ind";
+
+        div.innerHTML = `
+            <div class="flex items-start justify-between gap-4">
+                <div class="flex-1">
+                    <p class="font-bold text-gray-900 dark:text-white text-lg">${r.type}</p>
+                    <div class="flex items-center gap-4 mt-2 text-sm text-gray-500 dark:text-gray-400 font-normal">
+                        <div class="flex items-center gap-1">
+                            <span class="material-symbols-outlined text-base">info</span>
+                            <span>Request Type</span>
+                        </div>
+                        <div class="status-badge ${statusClass}">
+                            <span class="material-symbols-outlined text-base">${statusIcon}</span>
+                            <span>${r.status}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="w-full bg-primary text-white font-bold py-3.5 px-4 rounded-lg text-lg help-btn transition-opacity hover:opacity-90">
+                Help Now
+            </button>
+        `;
+
+        main.appendChild(div);
+
+        div.querySelector(".help-btn").addEventListener("click", async () => {
+            await fetch("http://localhost:3000/report", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ ...r, status: "Assigned" })
+            });
+            alert("You are assigned to this request!");
+            loadRequests();
+        });
+    });
+}
+
+// Load requests on page load
+loadRequests();
+</script>
+
+</body>
+</html>

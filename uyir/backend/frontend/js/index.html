@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uyir - Login</title>
+
+<!-- Tailwind + Fonts -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+
+<script>
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          primary: "#f20d0d",
+          "background-light": "#f8f5f5",
+          "background-dark": "#221010",
+        },
+        fontFamily: { display: ["Inter"] },
+        borderRadius: {
+          DEFAULT: "0.5rem",
+          lg: "1rem",
+          xl: "1.5rem",
+          full: "9999px"
+        },
+      },
+    },
+  }
+</script>
+
+<style>
+  .neumorphism-input {
+    background-color: #f8f5f5;
+    box-shadow: inset 5px 5px 10px #e1dcdc, inset -5px -5px 10px #ffffff;
+  }
+  .dark .neumorphism-input {
+    background-color: #221010;
+    box-shadow: inset 5px 5px 10px #1b0d0d, inset -5px -5px 10px #291313;
+  }
+</style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark font-display min-h-screen flex flex-col justify-between">
+  <!-- Decorative Icons -->
+  <div class="absolute inset-0 z-0 opacity-5">
+    <span class="material-symbols-outlined absolute top-1/4 left-1/4 text-primary text-9xl transform -translate-x-1/2 -translate-y-1/2 rotate-12">health_and_safety</span>
+    <span class="material-symbols-outlined absolute bottom-1/4 right-1/4 text-primary text-9xl transform translate-x-1/2 translate-y-1/2 -rotate-12">local_hospital</span>
+  </div>
+
+  <!-- Login Form -->
+  <div class="relative z-10 flex flex-col items-center justify-center flex-grow px-6">
+    <div class="w-full max-w-sm">
+      <div class="text-center mb-8">
+        <div class="inline-block p-4 bg-white dark:bg-background-dark rounded-full shadow-lg mb-4">
+          <span class="material-symbols-outlined text-primary text-5xl">add</span>
+        </div>
+        <h1 class="text-4xl font-bold text-gray-800 dark:text-white">Uyir</h1>
+        <p class="text-gray-600 dark:text-gray-400 mt-2">Bridging Health, Saving Lives</p>
+      </div>
+
+      <form id="loginForm" class="space-y-6">
+        <!-- Username -->
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">person</span>
+          <input id="username" name="username" type="text" required placeholder="Username"
+            class="form-input w-full pl-12 pr-4 py-4 rounded-xl border-none neumorphism-input text-gray-800 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary/50"/>
+        </div>
+
+        <!-- Phone -->
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">phone</span>
+          <input id="phone" name="phone" type="tel" required placeholder="Phone Number"
+            class="form-input w-full pl-12 pr-4 py-4 rounded-xl border-none neumorphism-input text-gray-800 dark:text-white placeholder-gray-400 focus:ring-2 focus:ring-primary/50"/>
+        </div>
+
+        <!-- Role -->
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">shield</span>
+          <select id="role" name="role" required
+            class="form-select w-full pl-12 pr-10 py-4 rounded-xl border-none appearance-none neumorphism-input text-gray-800 dark:text-white focus:ring-2 focus:ring-primary/50">
+            <option value="" disabled selected>Select Role</option>
+            <option value="patient">Patient</option>
+            <option value="doctor">Doctor</option>
+            <option value="paramedic">Paramedic</option>
+          </select>
+        </div>
+
+        <!-- Language -->
+        <div class="relative">
+          <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-gray-400">language</span>
+          <select id="language" name="language" required
+            class="form-select w-full pl-12 pr-10 py-4 rounded-xl border-none appearance-none neumorphism-input text-gray-800 dark:text-white focus:ring-2 focus:ring-primary/50">
+            <option value="" disabled selected>Select Language</option>
+            <option value="english">English</option>
+            <option value="spanish">Español</option>
+            <option value="french">Français</option>
+          </select>
+        </div>
+
+        <!-- Login Button -->
+        <button type="submit"
+          class="w-full bg-primary text-white font-bold py-4 px-4 rounded-lg hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary/50 dark:focus:ring-offset-background-dark transition-all duration-300 transform hover:scale-105 shadow-lg shadow-primary/30">
+          Login
+        </button>
+      </form>
+
+      <!-- Register Link -->
+      <p class="text-center mt-6">
+        <a href="#" class="text-sm text-gray-600 dark:text-gray-400 hover:text-primary">Create Account</a>
+      </p>
+    </div>
+  </div>
+
+  <!-- SOS Button -->
+  <div class="relative z-10 flex items-center justify-center pb-8">
+    <button id="sosButton" class="relative flex items-center justify-center w-20 h-20 bg-primary rounded-full text-white shadow-xl shadow-primary/40 animate-pulse">
+      <span class="absolute inline-flex h-full w-full rounded-full bg-primary opacity-75 animate-ping"></span>
+      <span class="relative material-symbols-outlined text-4xl">sos</span>
+      <span class="sr-only">Emergency Help</span>
+    </button>
+  </div>
+</body>
+</html>

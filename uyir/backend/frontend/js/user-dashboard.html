@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Uyir - User Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet"/>
+<script>
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "primary": "#ef4444",
+        "background-light": "#ffffff",
+        "background-dark": "#1a1a1a",
+      },
+      fontFamily: {
+        "display": ["Poppins", "sans-serif"]
+      },
+      borderRadius: {
+        "DEFAULT": "1rem",
+        "lg": "1.5rem",
+        "xl": "2rem",
+        "full": "9999px"
+      },
+    },
+  },
+}
+</script>
+<style>
+.emergency-glow {
+  box-shadow: 0 0 20px 8px rgba(239, 68, 68, 0.5), 0 0 30px 15px rgba(239, 68, 68, 0.3);
+}
+body {
+  min-height: max(884px, 100dvh);
+}
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display">
+
+<div class="relative flex h-auto min-h-screen w-full flex-col justify-between">
+<main class="flex-grow p-6 pb-28">
+
+<!-- Header -->
+<header class="flex items-center justify-center mb-10">
+  <h1 class="text-3xl font-bold text-gray-900 dark:text-white">Uyir</h1>
+</header>
+
+<!-- Emergency Button -->
+<div class="flex flex-col items-center gap-8">
+  <button id="sosButton" class="w-48 h-48 bg-primary rounded-full flex items-center justify-center shadow-lg transform transition-transform active:scale-95">
+    <span class="material-symbols-outlined text-white text-8xl">siren</span>
+  </button>
+  <button id="helpButton" class="w-full max-w-xs h-16 bg-primary text-white text-xl font-bold rounded-full flex items-center justify-center emergency-glow animate-pulse">
+    Emergency Help
+  </button>
+</div>
+
+<!-- History Section -->
+<section class="mt-12">
+  <h2 class="text-xl font-bold text-gray-800 dark:text-gray-200 mb-4">History of Reports</h2>
+  <div id="reportList" class="space-y-4">
+    <!-- Reports will be dynamically injected here -->
+    <!-- Example format (auto-filled via JS):
+      <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+            <span class="material-symbols-outlined text-green-500 dark:text-green-400">check_circle</span>
+          </div>
+          <div>
+            <p class="font-bold text-gray-800 dark:text-gray-100">Chest Pain</p>
+            <p class="text-sm text-green-600 dark:text-green-400 font-medium">Completed</p>
+          </div>
+        </div>
+        <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+      </div>
+    -->
+  </div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="fixed bottom-0 left-0 right-0 bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 rounded-t-xl shadow-[0_-4px_12px_rgba(0,0,0,0.05)]">
+  <nav class="flex justify-around items-center h-20 px-2 pb-safe">
+    <a class="flex flex-col items-center justify-center text-primary gap-1" href="#">
+      <span class="material-symbols-outlined">home</span>
+      <span class="text-xs font-medium">Home</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors gap-1" href="#">
+      <span class="material-symbols-outlined">notifications</span>
+      <span class="text-xs font-medium">Notifications</span>
+    </a>
+    <a class="flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 hover:text-primary dark:hover:text-primary transition-colors gap-1" href="#">
+      <span class="material-symbols-outlined">logout</span>
+      <span class="text-xs font-medium">Log Out</span>
+    </a>
+  </nav>
+</footer>
+
+</div>
+
+<!-- JS to load reports dynamically -->
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  const reportList = document.getElementById("reportList");
+  // Example data (to be replaced with real DB values later)
+  const reports = [];
+
+  if (reports.length === 0) {
+    reportList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">No reports yet.</p>';
+  } else {
+    reports.forEach(report => {
+      const statusColor = report.status === "Completed" ? "text-green-600 dark:text-green-400" : "text-yellow-500";
+      reportList.innerHTML += `
+        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md flex items-center justify-between">
+          <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
+              <span class="material-symbols-outlined text-green-500 dark:text-green-400">check_circle</span>
+            </div>
+            <div>
+              <p class="font-bold text-gray-800 dark:text-gray-100">${report.title}</p>
+              <p class="text-sm ${statusColor} font-medium">${report.status}</p>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
+        </div>`;
+    });
+  }
+});
+</script>
+
+</body>
+</html>

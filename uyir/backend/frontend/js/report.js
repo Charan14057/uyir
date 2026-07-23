@@ -1,43 +1,62 @@
-const user = JSON.parse(localStorage.getItem("user"));
-const submitBtn = document.querySelector("button.w-full");
+const user = JSON.parse(localStorage.getItem("user") || "null");
 
-submitBtn.addEventListener("click", async () => {
-  const type = document.querySelector("div.grid button.active")?.innerText || "Other";
-  const description = document.querySelector("textarea").value;
-  const urgencyBtn = document.querySelector("div.flex button.active")?.innerText || "Low";
+if (!user?.id) {
+  window.location.href = "index.html";
+}
 
-  // For simplicity, we mock location
-  const location = "Auto-detected location";
+const reportButtons = document.querySelectorAll(".report-btn");
+const emergencyButtons = document.querySelectorAll(".emergency-btn");
+const descriptionEl = document.querySelector("#description");
+const submitBtn = document.querySelector("#submitReport");
 
-  const res = await fetch("http://localhost:3000/report", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      userId: user.id,
-      type,
-      description,
-      urgency: urgencyBtn,
-      location,
-    }),
-  });
+let selectedType = document.querySelector(".report-btn[data-type]")?.dataset.type || "";
+let emergencyLevel = document.querySelector(".emergency-btn[data-level]")?.dataset.level || "";
 
-  const data = await res.json();
-  alert("Report submitted!");
-  window.location.href = "user-dashboard.html";
-});
-
-// Optional: add click toggling for urgency and type buttons
-document.querySelectorAll("div.grid button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll("div.grid button").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+reportButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    selectedType = button.dataset.type;
+    reportButtons.forEach((item) => item.classList.remove("bg-primary", "text-white"));
+    button.classList.add("bg-primary", "text-white");
   });
 });
 
-document.querySelectorAll("div.flex.justify-between button").forEach(btn => {
-  btn.addEventListener("click", () => {
-    document.querySelectorAll("div.flex.justify-between button").forEach(b => b.classList.remove("active"));
-    btn.classList.add("active");
+emergencyButtons.forEach((button) => {
+  button.addEventListener("click", () => {
+    emergencyLevel = button.dataset.level;
+    emergencyButtons.forEach((item) => item.classList.remove("ring-2", "ring-primary"));
+    button.classList.add("ring-2", "ring-primary");
   });
 });
 
+if (submitBtn) {
+  submitBtn.addEventListener("click", async () => {
+    const description = descriptionEl?.value.trim();
+    if (!selectedType || !emergencyLevel || !description) {
+      alert("Please fill out all fields before submitting.");
+      return;
+    }
+
+    try {
+      const response = await fetch("/report", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: user.id,
+          type: selectedType,
+          description,
+          urgency: emergencyLevel,
+          location: "Auto-detected location",
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit report");
+      }
+
+      alert("Report submitted successfully.");
+      window.location.href = "user-dashboard.html";
+    } catch (error) {
+      alert("Unable to submit report. Please try again.");
+    }
+  });
+}

@@ -105,35 +105,7 @@ body {
 
 </div>
 
-<!-- JS to load reports dynamically -->
-<script>
-document.addEventListener("DOMContentLoaded", () => {
-  const reportList = document.getElementById("reportList");
-  // Example data (to be replaced with real DB values later)
-  const reports = [];
-
-  if (reports.length === 0) {
-    reportList.innerHTML = '<p class="text-gray-500 dark:text-gray-400 text-center">No reports yet.</p>';
-  } else {
-    reports.forEach(report => {
-      const statusColor = report.status === "Completed" ? "text-green-600 dark:text-green-400" : "text-yellow-500";
-      reportList.innerHTML += `
-        <div class="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-md flex items-center justify-between">
-          <div class="flex items-center gap-4">
-            <div class="w-12 h-12 bg-green-100 dark:bg-green-900/50 rounded-lg flex items-center justify-center">
-              <span class="material-symbols-outlined text-green-500 dark:text-green-400">check_circle</span>
-            </div>
-            <div>
-              <p class="font-bold text-gray-800 dark:text-gray-100">${report.title}</p>
-              <p class="text-sm ${statusColor} font-medium">${report.status}</p>
-            </div>
-          </div>
-          <span class="material-symbols-outlined text-gray-400 dark:text-gray-500">chevron_right</span>
-        </div>`;
-    });
-  }
-});
-</script>
+<script src="user-dashboard.js"></script>
 
 </body>
 </html>

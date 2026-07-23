@@ -102,22 +102,7 @@ body {
   </footer>
 </div>
 
-<!-- Simple JS Placeholder -->
-<script>
-  // No data yet — this will be dynamically filled later when user reports come in
-  const cases = [];
-  const container = document.getElementById("casesContainer");
-  const banner = document.getElementById("urgentBanner");
-
-  // Function to update UI when cases arrive
-  function updateCases(newCases) {
-    if (!newCases.length) {
-      container.innerHTML = `<p class='text-gray-500 text-center py-10'>No active cases yet.</p>`;
-      banner.classList.add("hidden");
-      return;
-    }
-  }
-</script>
+<script src="doctor-dashboard.js"></script>
 
 </body>
 </html>

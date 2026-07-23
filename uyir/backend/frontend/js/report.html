@@ -133,50 +133,7 @@ body { min-height: max(884px, 100dvh); }
 
 </div>
 
-<!-- JavaScript -->
-<script>
-// Handle report type selection
-const reportButtons = document.querySelectorAll('.report-btn');
-let selectedType = null;
-reportButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    selectedType = btn.dataset.type;
-    reportButtons.forEach(b => b.classList.remove('bg-primary', 'text-white'));
-    btn.classList.add('bg-primary', 'text-white');
-  });
-});
-
-// Handle emergency level selection
-const emergencyButtons = document.querySelectorAll('.emergency-btn');
-let emergencyLevel = null;
-emergencyButtons.forEach(btn => {
-  btn.addEventListener('click', () => {
-    emergencyLevel = btn.dataset.level;
-    emergencyButtons.forEach(b => b.classList.remove('ring-2', 'ring-primary'));
-    btn.classList.add('ring-2', 'ring-primary');
-  });
-});
-
-// Submit report
-document.getElementById('submitReport').addEventListener('click', () => {
-  const description = document.getElementById('description').value.trim();
-  if (!selectedType || !emergencyLevel || !description) {
-    alert('Please fill out all fields before submitting.');
-    return;
-  }
-
-  // Placeholder for DB integration later
-  const reportData = {
-    type: selectedType,
-    description,
-    emergencyLevel,
-    date: new Date().toLocaleString()
-  };
-
-  console.log('Report submitted:', reportData);
-  alert('Report submitted successfully! (Will save to DB soon)');
-});
-</script>
+<script src="report.js"></script>
 
 </body>
 </html>

@@ -107,7 +107,7 @@ app.post("/report", (req, res) => {
   );
 });
 
-app.get("/reports", (req, res) => {
+app.get("/reports", apiLimiter, (req, res) => {
   const { userId } = req.query;
   const sql = userId ? "SELECT * FROM reports WHERE userId = ? ORDER BY id DESC" : "SELECT * FROM reports ORDER BY id DESC";
   const params = userId ? [userId] : [];
@@ -120,7 +120,7 @@ app.get("/reports", (req, res) => {
   });
 });
 
-app.patch("/reports/:id/status", (req, res) => {
+app.patch("/reports/:id/status", apiLimiter, (req, res) => {
   const { id } = req.params;
   const { status } = req.body;
   if (!status) {
